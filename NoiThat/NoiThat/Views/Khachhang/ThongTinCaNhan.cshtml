@@ -1,0 +1,94 @@
+﻿@model NoiThat.Models.User
+
+@{
+    ViewBag.Title = "ThongTinCaNhan";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<section class="section-content bg-white padding-y">
+    <div class="container">
+
+        <!-- ============================ ITEM DETAIL ======================== -->
+        <div class="row">
+            <aside class="col-md-6">
+                <div class="card">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <div> <a href="#"><img src="~/Public/images/user/@Model.Img"></a></div>
+                        </div>
+                    </article>
+                </div>
+            </aside>
+            <main class="col-md-6">
+                <article class="product-info-aside">
+                    <dl class="row">
+                        <dt class="col-sm-3"> Họ và tên</dt>
+                        <dd class="col-sm-9">@Model.FullName</dd>
+
+                        <dt class="col-sm-3"> Số điện thoại</dt>
+                        <dd class="col-sm-9">@Model.Phone</dd>
+
+                        <dt class="col-sm-3"> Địa chỉ</dt>
+                        <dd class="col-sm-9">@Model.Address</dd>
+
+                        <dt class="col-sm-3"> Email</dt>
+                        <dd class="col-sm-9">@Model.Email</dd>
+
+                        <dt class="col-sm-3"> Điểm thưởng</dt>
+                        <dd class="col-sm-9">@Model.Score điểm</dd>
+                    </dl>
+                    <a style="background-color:burlywood" href="@Url.Action("ChinhSuaThongTin","Khachhang", new { id = Model.id })" class="btn btn-primary btn-lg">Chỉnh Sửa Thông Tin</a>
+                </article>
+            </main>
+        </div> <!-- row.// -->
+        <!-- ================ ITEM DETAIL END .// ================= -->
+
+
+    </div> <!-- container .//  -->
+    
+
+</section>
+<style>
+    /* Định dạng phần thông tin cá nhân */
+    .product-info-aside {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Định dạng các tiêu đề */
+    dt {
+        font-weight: bold;
+        color: #333;
+        font-size: 20px; /* Điều chỉnh kích thước chữ */
+        font-family: 'Arial', sans-serif; /* Chọn font chữ bạn muốn sử dụng */
+    }
+
+    /* Định dạng nội dung */
+    dd {
+        color: #666;
+        margin-bottom: 10px;
+        font-size: 18px; /* Điều chỉnh kích thước chữ */
+        font-family: 'Arial', sans-serif; /* Chọn font chữ bạn muốn sử dụng */
+    }
+
+    /* Định dạng nút chỉnh sửa */
+    .btn-primary {
+        background-color: #ff6b6b;
+        border-color: #ff6b6b;
+        color: white;
+        font-size: 16px; /* Điều chỉnh kích thước chữ */
+        font-family: 'Arial', sans-serif; /* Chọn font chữ bạn muốn sử dụng */
+    }
+
+        .btn-primary:hover {
+            background-color: #e55d5d;
+            border-color: #e55d5d;
+        }
+
+
+    
+
+
+</style>

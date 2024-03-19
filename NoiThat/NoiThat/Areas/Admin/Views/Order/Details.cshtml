@@ -1,0 +1,148 @@
+﻿@model NoiThat.Models.Order
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using NoiThat.Models;
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content my-2">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong class="text-danger text-uppercase">chi tiết đơn hàng</strong>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="@Url.Action("Index","Order")" class="btn btn-sm btn-info"><i class="fa fa-backward"></i> Về danh sách</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h2>Thông tin khách hàng</h2>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Mã khách hàng</td>
+                        <td> @Model.UserId</td>
+                    </tr>
+                    <tr>
+                        <td>Tên khách hàng</td>
+                        <td>@Model.ReceiverName</td>
+                    </tr>
+                    <tr>
+                        <td>Số điện thoại</td>
+                        <td>@Model.ReceiverPhone</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ</td>
+                        <td>@Model.ReceiverAddress</td>
+                    </tr>
+                    <tr>
+                        <td>Ghi chú</td>
+                        <td>@Model.Note</td>
+                    </tr>
+
+                </table>
+                <h2>Chi tiết đơn hàng</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:120px">Hình sản phẩm</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            decimal tongtien = 0;
+                        }
+                        @foreach (var detail in ViewBag.ListChiTiet)
+                        {
+                            <tr>
+
+                                <td><img src="~/Public/images/products/@Html.Action("ProductImg","Product", new { productid = detail.ProductId })" class="img-fluid" /></td>
+                                <td>@detail.ProductId</td>
+                                <td>@Html.Action("ProductName", "Product", new { productid = detail.ProductId })</td>
+                                <td>@string.Format("{0:0,0}", detail.Price)<small class="text-muted">đ</small></td>
+                                <td>@detail.Quantity</td>
+                                <td>@string.Format("{0:0,0}", detail.Amount)<small class="text-muted">đ</small></td>
+                            </tr>
+                            tongtien += @detail.Amount;
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+
+                            <th colspan="4">
+                                @switch (Model.Status)
+                                {
+                                    case 0:
+                                        <label class="text-danger"> Đơn hàng đã bị hủy</label>
+                                        break;
+                                    case 1:
+                                        <a href="@Url.Action("HuyDon","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Hủy
+                                        </a>
+                                        <a href="@Url.Action("DaXacMinh","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Đã xác nhận
+                                        </a>
+                                        break;
+                                    case 2:
+                                        <a href="@Url.Action("DangVanChuyen","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Đang vận chuyển
+                                        </a>
+                                        break;
+                                    case 3:
+                                        <a href="@Url.Action("ThanhCong","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Thành công
+                                        </a> break;
+                                    case 4:
+                                        <label class="text-success"> Đơn hàng đã hoàn thành</label>
+                                        break;
+                                    case 11:
+                                        <a href="@Url.Action("DaXacMinh","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Xác nhận
+                                        </a>
+                                        break;
+                                    case 12:
+                                        <a href="@Url.Action("DangVanChuyen","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Đang vận chuyển
+                                        </a>
+                                        break;
+                                    case 13:
+                                        <a href="@Url.Action("ThanhCong","Order", new { id = Model.id })" class="btn btn-sm btn-info">
+                                            <i class="fa fa-edit"></i>
+                                            Thành công
+                                        </a>
+                                        break;
+
+
+                                }
+
+                            </th>
+                            <th>Tổng tiền: </th>
+                            <th>@string.Format("{0:0,0}", tongtien)<small class="text-muted">đ</small></th>
+                        </tr>
+
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,130 @@
+﻿@model IEnumerable<NoiThat.Models.PostInfo>
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+<section class="section-content padding-y">
+    <div class="container">
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <ol class="breadcrumb float-left">
+                    <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+                    <li class="breadcrumb-item"><a href="~/tat-ca-bai-viet">Tất cả bài viết</a></li>
+                </ol>
+            </div> <!-- card-body .// -->
+        </div> <!-- card.// -->
+        @foreach (var post in Model)
+        {
+            <article class="card card-product-list">
+                <div class="row no-gutters">
+                    <aside class="col-md-3">
+                        <a href="~/@post.Slug" class="img-wrap">
+                            @{
+                                DateTime date = DateTime.Now;
+                            }
+                            @if (post.CreatedAt.Value.Day - date.Day <= 7)
+                            {
+                                <span class="badge badge-danger"> NEW</span>
+                            }
+                            <img class="img-sm float-right" src="~/Public/images/posts/@post.Img">
+                        </a>
+                    </aside> <!-- col.// -->
+                    <div class="col-md-6">
+                        <div class="info-main">
+                            <a href="~/@post.Slug" class="h5 title"> @post.Title</a>
+                            <p>
+                                @NoiThat.Library.XString.StrLimit(post.Detail, 300)
+                            </p>
+
+
+                        </div> <!-- info-main.// -->
+
+
+                    </div> <!-- col.// -->
+                </div> <!-- row.// -->
+            </article> <!-- card-product .// -->
+        }
+
+    </div> <!-- container .//  -->
+</section>
+<style>
+    /* Định dạng breadcrumb */
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+        .breadcrumb-item a:hover {
+            color: #007bff; /* Màu khi hover */
+        }
+
+    /* Định dạng danh sách bài viết */
+    /* Định dạng danh sách bài viết */
+    .section-content {
+        padding: 40px 0;
+    }
+
+    .card-product-list {
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease; /* Thêm hiệu ứng khi hover */
+    }
+
+        .card-product-list:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Hiệu ứng khi hover */
+        }
+
+        .card-product-list .img-wrap {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            max-height: 180px; /* Tăng kích thước ảnh */
+        }
+
+            .card-product-list .img-wrap img {
+                width: 100%;
+                height: auto;
+                transition: transform 0.3s ease;
+            }
+
+            .card-product-list .img-wrap:hover img {
+                transform: scale(1.05); /* Hiệu ứng scale khi hover */
+            }
+
+    .info-main {
+        padding: 15px;
+    }
+
+        .info-main .title {
+            font-size: 20px; /* Tăng kích thước tiêu đề */
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            margin-bottom: 10px; /* Cân đối khoảng cách */
+        }
+
+            .info-main .title:hover {
+                color: #007bff; /* Màu khi hover */
+            }
+
+        .info-main p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8; /* Tăng độ dài dòng */
+            margin-bottom: 15px; /* Cân đối khoảng cách */
+        }
+
+
+</style>

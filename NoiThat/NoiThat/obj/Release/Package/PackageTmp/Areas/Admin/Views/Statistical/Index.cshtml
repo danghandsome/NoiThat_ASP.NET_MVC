@@ -1,0 +1,394 @@
+﻿
+@{
+    ViewBag.Title = "Thống kê";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Thống kê</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="~/admin">Home</a></li>
+                        <li class="breadcrumb-item active">Thống kê</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.container-fluid -->
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Thống kê doanh thu</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart">
+                            <canvas id="statisticalChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ngày</th>
+                                    <th>Doanh thu</th>
+                                    <th>Lợi nhuận</th>
+                                </tr>
+                            </thead>
+                            <tbody id="load_data"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart">
+                            <canvas id="monthlyStatisticalChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tháng</th>
+                                    <th>Doanh thu</th>
+                                    <th>Lợi nhuận</th>
+                                </tr>
+                            </thead>
+                            <tbody id="load_monthly_data"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="chart">
+                            <canvas id="yearlyStatisticalChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Năm</th>
+                                    <th>Doanh thu</th>
+                                    <th>Lợi nhuận</th>
+                                </tr>
+                            </thead>
+                            <tbody id="load_yearly_data"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+
+    @section scripts{
+
+        <script src="~/Content/clients/plugins/chart.js/Chart.min.js"></script>
+        <script src="~/Content/clients/plugins/moment/moment.min.js"></script>
+        <script>
+            $(function () {
+                const statisticalChartCanvas = $('#statisticalChart').get(0).getContext('2d');
+                const monthlyStatisticalChartCanvas = $('#monthlyStatisticalChart').get(0).getContext('2d');
+                const yearlyStatisticalChartCanvas = $('#yearlyStatisticalChart').get(0).getContext('2d');
+
+                let arrDoanhThu = [];
+                let arrLoiNhuan = [];
+                let arrDate = [];
+
+                function formatDate(date) {
+                    return moment(date).format('DD/MM/yyyy');
+                }
+
+                function load_data(data) {
+                    // Hiển thị dữ liệu thống kê theo ngày
+                    let strHtml = "";
+                    $.each(data, function (i, item) {
+                        const strDate = formatDate(item.Date);
+                        strHtml += "<tr>";
+                        strHtml += "<td>" + (i + 1) + "</td>";
+                        strHtml += "<td>" + strDate + "</td>";
+                        strHtml += "<td>" + item.DoanhThu + "</td>";
+                        strHtml += "<td>" + item.LoiNhuan + "</td>";
+                        strHtml += "</tr>";
+                    });
+                    $('#load_data').html(strHtml);
+
+                    // Thực hiện tính toán thống kê theo tháng và năm
+                    loadMonthlyData(data);
+                }
+
+                function loadMonthlyData(data) {
+                    let monthlyData = {}; // Dữ liệu thống kê theo tháng
+                    let yearlyData = {}; // Dữ liệu thống kê theo năm
+
+                    data.forEach(function (item) {
+                        const monthYear = moment(item.Date).format('MM/YYYY');
+                        const year = moment(item.Date).format('YYYY');
+
+                        if (!monthlyData[monthYear]) {
+                            monthlyData[monthYear] = {
+                                totalDoanhThu: 0,
+                                totalLoiNhuan: 0,
+                                count: 0,
+                            };
+                        }
+
+                        if (!yearlyData[year]) {
+                            yearlyData[year] = {
+                                totalDoanhThu: 0,
+                                totalLoiNhuan: 0,
+                                count: 0,
+                            };
+                        }
+
+                        monthlyData[monthYear].totalDoanhThu += item.DoanhThu;
+                        monthlyData[monthYear].totalLoiNhuan += item.LoiNhuan;
+                        monthlyData[monthYear].count++;
+
+                        yearlyData[year].totalDoanhThu += item.DoanhThu;
+                        yearlyData[year].totalLoiNhuan += item.LoiNhuan;
+                        yearlyData[year].count++;
+                    });
+
+                    // Hiển thị dữ liệu thống kê theo tháng và năm
+                    displayMonthlyData(monthlyData);
+                    displayYearlyData(yearlyData);
+                }
+
+                function displayMonthlyData(monthlyData) {
+                    let strMonthlyHtml = "";
+                    let i = 1;
+
+                    for (const monthYear in monthlyData) {
+                        strMonthlyHtml += "<tr>";
+                        strMonthlyHtml += "<td>" + i + "</td>";
+                        strMonthlyHtml += "<td>" + monthYear + "</td>";
+                        strMonthlyHtml += "<td>" + monthlyData[monthYear].totalDoanhThu + "</td>";
+                        strMonthlyHtml += "<td>" + monthlyData[monthYear].totalLoiNhuan + "</td>";
+                        strMonthlyHtml += "</tr>";
+                        i++;
+                    }
+
+                    $('#load_monthly_data').html(strMonthlyHtml);
+                }
+
+
+                function displayYearlyData(yearlyData) {
+                    let strYearlyHtml = "";
+                    let i = 1;
+
+                    for (const year in yearlyData) {
+                        strYearlyHtml += "<tr>";
+                        strYearlyHtml += "<td>" + i + "</td>";
+                        strYearlyHtml += "<td>" + year + "</td>";
+                        strYearlyHtml += "<td>" + yearlyData[year].totalDoanhThu + "</td>";
+                        strYearlyHtml += "<td>" + yearlyData[year].totalLoiNhuan + "</td>";
+                        strYearlyHtml += "</tr>";
+                        i++;
+                    }
+
+                    $('#load_yearly_data').html(strYearlyHtml);
+                }
+                // Hàm tạo dữ liệu thống kê theo tháng
+                function generateMonthlyChartData(data) {
+                    let monthlyData = {};
+                    data.forEach(function (item) {
+                        const monthYear = moment(item.Date).format('MM/YYYY');
+                        if (!monthlyData[monthYear]) {
+                            monthlyData[monthYear] = {
+                                totalDoanhThu: 0,
+                                totalLoiNhuan: 0
+                            };
+                        }
+                        monthlyData[monthYear].totalDoanhThu += item.DoanhThu;
+                        monthlyData[monthYear].totalLoiNhuan += item.LoiNhuan;
+                    });
+                    return {
+                        labels: Object.keys(monthlyData),
+                        datasets: [
+                            {
+                                label: 'Doanh thu',
+                                backgroundColor: 'rgba(250, 52, 52, 1)',
+                                borderColor: 'rgba(250, 52, 52, 1)',
+                                pointRadius: false,
+                                pointColor: 'rgba(250, 52, 52, 1)',
+                                pointStrokeColor: '#c1c7d1',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(220,220,220,1)',
+                                data: Object.values(monthlyData).map(month => month.totalDoanhThu)
+                            },
+                            {
+                                label: 'Lợi nhuận',
+                                backgroundColor: 'rgba(0, 181, 23,0.9)',
+                                borderColor: 'rgba(0, 181, 23,0.8)',
+                                pointRadius: false,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(0, 181, 23,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(0, 181, 23,1)',
+                                data: Object.values(monthlyData).map(month => month.totalLoiNhuan)
+                            }]
+                    };
+                }
+
+                // Hàm tạo dữ liệu thống kê theo năm
+                function generateYearlyChartData(data) {
+                    let yearlyData = {};
+                    data.forEach(function (item) {
+                        const year = moment(item.Date).format('YYYY');
+                        if (!yearlyData[year]) {
+                            yearlyData[year] = {
+                                totalDoanhThu: 0,
+                                totalLoiNhuan: 0
+                            };
+                        }
+                        yearlyData[year].totalDoanhThu += item.DoanhThu;
+                        yearlyData[year].totalLoiNhuan += item.LoiNhuan;
+                    });
+                    return {
+                        labels: Object.keys(yearlyData),
+                        datasets: [
+                        {
+                            label: 'Doanh thu',
+                            backgroundColor: 'rgba(250, 52, 52, 1)',
+                            borderColor: 'rgba(250, 52, 52, 1)',
+                            pointRadius: false,
+                            pointColor: 'rgba(250, 52, 52, 1)',
+                            pointStrokeColor: '#c1c7d1',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(220,220,220,1)',
+                            data: Object.values(yearlyData).map(year => year.totalDoanhThu)
+                        },
+                        {
+                                label: 'Lợi nhuận',
+                                backgroundColor: 'rgba(0, 181, 23,0.9)',
+                                borderColor: 'rgba(0, 181, 23,0.8)',
+                                pointRadius: false,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(0, 181, 23,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(0, 181, 23,1)',
+                                data: Object.values(yearlyData).map(year => year.totalLoiNhuan)
+                        }]
+                    };
+                }
+
+                $.ajax({
+                    url: '/Statistical/GetStatistical',
+                    type: 'GET',
+                    data: { fromDate: '', toDate: '' },
+                    success: function (rs) {
+                        if (rs.Data.length > 0) {
+                            $.each(rs.Data, function (i, item) {
+                                const strDate = formatDate(item.Date);
+                                arrDate.push(strDate);
+                                arrDoanhThu.push(item.DoanhThu);
+                                arrLoiNhuan.push(item.LoiNhuan);
+                            });
+
+                            const areaChartData = {
+                                labels: arrDate,
+                                datasets: [
+                                    {
+                                        label: 'Lợi nhuận',
+                                        backgroundColor: 'rgba(0, 181, 23,0.9)',
+                                        borderColor: 'rgba(0, 181, 23,0.8)',
+                                        pointRadius: false,
+                                        pointColor: '#3b8bba',
+                                        pointStrokeColor: 'rgba(0, 181, 23,1)',
+                                        pointHighlightFill: '#fff',
+                                        pointHighlightStroke: 'rgba(0, 181, 23,1)',
+                                        data: arrLoiNhuan
+                                    },
+                                    {
+                                        label: 'Doanh thu',
+                                        backgroundColor: 'rgba(250, 52, 52, 1)',
+                                        borderColor: 'rgba(250, 52, 52, 1)',
+                                        pointRadius: false,
+                                        pointColor: 'rgba(250, 52, 52, 1)',
+                                        pointStrokeColor: '#c1c7d1',
+                                        pointHighlightFill: '#fff',
+                                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                                        data: arrDoanhThu
+                                    },
+                                ]
+                            };
+
+                            const barChartCanvas = statisticalChartCanvas;
+                            const barChartData = $.extend(true, {}, areaChartData);
+                            const temp0 = areaChartData.datasets[0];
+                            const temp1 = areaChartData.datasets[1];
+                            barChartData.datasets[0] = temp1;
+                            barChartData.datasets[1] = temp0;
+
+                            const barChartOptions = {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                datasetFill: false
+                            };
+
+                            new Chart(barChartCanvas, {
+                                type: 'bar',
+                                data: barChartData,
+                                options: barChartOptions
+                            });
+                            //them doan nay
+                            new Chart(monthlyStatisticalChartCanvas, {
+                                type: 'bar',
+                                data: generateMonthlyChartData(rs.Data),
+                                options: barChartOptions
+                            });
+
+                            // Biểu đồ thống kê theo năm
+                            new Chart(yearlyStatisticalChartCanvas, {
+                                type: 'bar',
+                                data: generateYearlyChartData(rs.Data),
+                                options: barChartOptions
+                            });
+
+                            load_data(rs.Data);
+                        } else {
+                            // Xử lý khi không có dữ liệu
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error fetching statistical data:', error);
+                    }
+                });
+            });
+        </script>
+    }
+</div>

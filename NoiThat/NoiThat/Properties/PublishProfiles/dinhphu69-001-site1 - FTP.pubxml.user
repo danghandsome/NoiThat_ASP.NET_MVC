@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA19lpGgvEPEqvmIRUDnY0QgAAAAACAAAAAAAQZgAAAAEAACAAAAAGlBQqeUj0jJ++SquVXFvcQ0CH8beKq0liOLCB+fQuoAAAAAAOgAAAAAIAACAAAAAi/OlWACF9mnvcQKw1AKmWxmS7gHd6kG8Mv6lmdHUQBSAAAACg184AnN6eRAKv8NGBVbKe11thjauiYBqulMF4YyYyGEAAAAB5LXFqmSgjgRGzB9iDBbjJMZT1zuXlq9KKiwFJ3yOltQLaI0SCvFF2K4tTu41FCqmnK/I7UUEyrCWsPr6CdjYQ</EncryptedPassword>
+    <_PublishTargetUrl>ftp://win5222.site4now.net:21/noithattptk</_PublishTargetUrl>
+    <History>False|2023-12-07T14:52:57.4566898Z;False|2023-12-02T11:25:43.7223731+07:00;False|2023-04-08T10:42:06.7609797+07:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

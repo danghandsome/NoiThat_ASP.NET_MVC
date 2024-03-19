@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+@using (Html.BeginForm("DangNhap", "Khachhang", FormMethod.Post))
+{
+    <section class="section-conten padding-y" style="min-height:84vh">
+        <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+            <div style=" background-color: floralwhite;" class="card-body">
+                <h4 class="card-title mb-4">Đăng nhập</h4>
+                <form>
+                    <div class="form-group">
+                        <input name="username" class="form-control" placeholder="Tên đăng nhập" type="text">
+                    </div>
+                    <div class="form-group">
+                        <input name="password" class="form-control" placeholder="Mật khẩu" type="password">
+                    </div>
+                    <div class="form-group">
+                        <button style="background-color:burlywood" type="submit" class="btn btn-primary btn-block">Login</button>
+                    </div>
+
+                    <a href="@ViewBag.Url" class="btn btn-custom" style="background-color: #1877f2;">
+                        <img src="~/Content/images/Pic/fb-2.jpg" style="vertical-align: middle; margin-right: 7px; "> Login With Facebook
+                    </a>
+
+                    <a style="font-family: Arial; font-size: 16px; margin-left: 5px;"></a>
+
+                    <a href="@ViewBag.response" class="btn btn-custom" style="background-color: #FF4900; margin-top: 3px;">
+
+                        <img src="~/Content/images/Pic/gg-5.jpg" style="vertical-align: middle; margin-right: 5px;">Login With Google
+                    </a>
+
+                    @Html.Raw(ViewBag.Error)
+                </form>
+            </div>
+        </div>
+        <p style="color:white;" class="text-center mt-4">Không có tài khoản? <a style="color:white;" href="~/dang-ky"> Đăng ký ngay!</a></p>
+    </section>
+}
+
+<style>
+    .btn {
+        transition: transform 0.3s ease;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 15px;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .btn-custom {
+        width: 100%;
+        margin-bottom: 10px; /* Khoảng cách giữa các nút */
+        position: relative; /* Thêm vào để điều chỉnh kích thước chữ */
+    }
+
+
+        .btn-custom img {
+            height: 25px; /* Điều chỉnh kích thước của hình ảnh */
+            vertical-align: middle;
+            margin-right: 5px;
+            margin-top: -5px;
+        }
+
+    .btn:hover {
+        transform: scale(1.1);
+    }
+</style>
+
+@*<video autoplay muted loop id="myVideo" style="margin-top:300px; position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%;">
+        <source src="~/Content/images/prime.mp4" type="video/mp4">
+    </video>*@
+<video autoplay muted loop id="myVideo">
+    <source src="~/Content/images/Zed.mp4" type="video/mp4">
+</video>
+
+
+<style>
+    #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;    
+        min-height: 100%;
+        z-index: -1; /* Đưa video xuống layer dưới cùng */
+    }
+    .layout-container {
+        /* Đặt các thuộc tính CSS cho layout của bạn ở đây */
+        /* Ví dụ: */
+        width: 80%;
+        margin: auto;
+        /* Các thuộc tính khác */
+</style>

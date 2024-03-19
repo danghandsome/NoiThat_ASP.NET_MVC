@@ -1,0 +1,56 @@
+﻿@model IEnumerable<NoiThat.Models.ProductInfo>
+
+@{
+    var cat = ViewBag.Category;
+}
+
+@{
+    Layout = null;
+}
+
+@using NoiThat.Library;
+@if (Model.Count() != 0)
+{
+
+    <header class="section-heading heading-line">
+        <h4 class="title-section text-uppercase">@cat.Name</h4>
+    </header>
+
+    <div class="card card-home-category">
+        <div class="row no-gutters">
+            <div class="col-md-3">
+
+                <div class="home-category-banner ">
+                    <h5 class="title">@cat.MetaKey</h5>
+                    <p>@cat.MetaDes </p>
+                    <a href="~/@cat.Slug" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+                    <img src="~/Public/images/categorys/@cat.Img" class="img-bg">
+                </div>
+
+            </div> <!-- col.// -->
+
+
+            <div class="col-md-9">
+                <ul class="row no-gutters bordered-cols">
+
+                    @foreach (var product in Model)
+                    {
+
+                        <li class="col-6 col-lg-3 col-md-4">
+                            <a href="~/@product.Slug" class="item">
+                                <div class="card-body">
+                                    <h6 class="title"> @product.Name </h6>
+                                    <img class="img-sm float-right" src="~/Public/images/products/@product.Img">
+                                    <p class="text-muted"><i class="fa fa-shopping-cart"></i> @XString.StrLimit(product.MetaDes, 100)</p>
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+                </ul>
+            </div> <!-- col.// -->
+        </div> <!-- row.// -->
+    </div> <!-- card.// -->
+
+}

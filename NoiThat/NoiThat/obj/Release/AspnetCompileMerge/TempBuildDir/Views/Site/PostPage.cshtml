@@ -1,0 +1,29 @@
+﻿@model NoiThat.Models.Post
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+
+<section class="section-pagetop bg-light">
+    <div class="container">
+        <h2 class="title-page">@Model.Title</h2>
+    </div> <!-- container .// -->
+</section>
+
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content bg-white padding-y">
+    <div class="container">
+
+        <p>
+            @Model.Detail
+        </p>
+        
+
+        <a href="javascript: history.back()" class="btn btn-light"> &laquo Go back</a>
+
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->

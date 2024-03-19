@@ -1,0 +1,71 @@
+﻿@keyframes spin {
+    from {
+        transform: rotateY(0);
+    }
+
+    to {
+        transform: rotateY(360deg);
+    }
+}
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.chair {
+    width: 100px;
+    height: 100px;
+    background-color: #e0e0e0;
+    transform-style: preserve-3d;
+    animation: spin 5s infinite linear;
+}
+
+    .chair div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: white;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .chair .front {
+        transform: translateZ(50px);
+    }
+
+    .chair .back {
+        transform: rotateY(180deg) translateZ(50px);
+        background-color: #a0a0a0;
+    }
+
+    .chair .left {
+        transform: rotateY(-90deg) translateZ(50px);
+        background-color: #c0c0c0;
+    }
+
+    .chair .right {
+        transform: rotateY(90deg) translateZ(50px);
+        background-color: #c0c0c0;
+    }
+
+    .chair .top {
+        transform: rotateX(90deg) translateZ(50px);
+        background-color: #808080;
+    }
+
+    .chair .bottom {
+        transform: rotateX(-90deg) translateZ(50px);
+        background-color: #808080;
+    }

@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "DonHangCaNhan";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+<link href="~/Public/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+@using NoiThat.Models;
+@using NoiThat.DAO;
+@{ OrderDetailDAO orderDetailDAO = new OrderDetailDAO();}
+<div class="card mt-3">
+    <h5 class="card-header">Đơn hàng của <a style="color:forestgreen">@Session["FullName"]</a> </h5>
+    <div class="card-body">
+
+        @Html.Raw(ViewBag.ThongBao)
+
+
+        <table id="Panigation" class="table table-bordered table-hover table-sm mb-0">
+            <thead>
+                <tr style="text-align:center;">
+                    <th class="col-md-1">Mã đơn hàng</th>
+                    <th class="col-md-3">Thời gian đặt</th>
+                    <th class="col-md-3">Tổng tiền</th>
+                    <th class="col-md-3">Tình Trạng</th>
+                    <th class="col-md-2" style="text-align:left;" >Hành Động</th>
+                </tr>
+            </thead>
+        </table>
+        @foreach (Order item in @ViewBag.DonHangCaNhan)
+        {
+            <div class="row" style="text-align:center;">
+                <div class="col-md-1" >   @item.id</div>
+                <div class="col-md-3">@item.CreatedAt</div>
+                <div class="col-md-3">@item.Amount</div>
+                <div class="col-md-3">
+                    @switch (item.Status)
+                    {
+                        case 0:
+                            <label class="text-danger"> Đã hủy</label>
+                            break;
+                        case 1:
+                            <label class="text-info"> Đang chờ</label>
+                            break;
+                        case 2:
+                            <label class="text-info"> Đã xác nhận</label>
+                            break;
+                        case 3:
+                            <label class="text-info"> Đang vận chuyển</label>
+                            break;
+                        case 4:
+                            <label class="text-success"> Thành công</label>
+                            break;
+                        case 11:
+                            <label class="text-info"> Đang chờ</label> <label class="text-success"> (Đã thanh toán bằng VNPay)</label>
+
+                            break;
+                        case 12:
+                            <label class="text-info"> Đã xác nhận</label> <label class="text-success"> (Đã thanh toán bằng VNPay)</label>
+                            break;
+                        case 13:
+                            <label class="text-info"> Đang vận chuyển</label> <label class="text-success"> (Đã thanh toán bằng VNPay)</label>
+                            break;
+                    }
+                </div>
+
+                <div class="col-md-2" style="text-align:left;">
+                    <a class="accordion-collapse collapse show col-md-4" href="#commmentreply-@item.id" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-1">
+                        <i class=" fas fa-eye"></i>
+                    </a>
+                    @if (item.Status==1||item.Status==2)
+                {
+
+                    <a href="@Url.Action("HuyDon","Khachhang", new { id = item.id })" class="btn btn-sm btn-danger">
+                        <i class="fa"></i>
+                        Hủy
+                    </a>
+                }
+                </div>
+
+                <div id="commmentreply-@item.id" class="bg-light p-2 collapse">
+                    @foreach (var detail in orderDetailDAO.getList(item.id))
+                    {
+                        <div class="row">
+                            <div class="col-md-1"><img src="~/Public/images/products/@Html.Action("ProductImg","Khachhang", new { productid = detail.ProductId })" class="img-fluid" /></div>
+                            <div class="col-md-5">@Html.Action("ProductName", "Khachhang", new { productid = detail.ProductId })</div>
+                            <div class="col-md-2">Giá: @string.Format("{0:0,0}", detail.Price)<small class="text-muted">đ</small></div>
+                            <div class="col-md-2">Số lượng: @detail.Quantity</div>
+                            <div class="col-md-2">Thành tiền: @string.Format("{0:0,0}", detail.Amount)<small class="text-muted">đ</small></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

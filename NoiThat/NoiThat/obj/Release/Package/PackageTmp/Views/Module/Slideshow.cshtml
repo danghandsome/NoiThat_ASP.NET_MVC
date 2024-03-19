@@ -1,0 +1,218 @@
+﻿@model IEnumerable<NoiThat.Models.Slider>
+
+@{
+    Layout = null;
+}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="~/Public/js/style.css" rel="stylesheet" />
+<style>
+    #video {
+        margin-top: 0px;
+        border-radius: 5px;
+    }
+
+    .center {
+        margin-top: 0;
+        width: 1420px;
+    }
+</style>
+<video class="center" id="video" autoplay muted loop>
+    <source src="~/Content/images/demo.mp4" type="video/mp4" />
+</video>
+
+
+<div style="margin-top: 40px;  width: 100%;" class="row">
+    <div class="col text-center">
+        <div style="font-family: 'Montserrat', sans-serif; padding: 20px; perspective: 1000px;">
+            <h1 style="font-size: 3em; color: #343a40; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; transform: rotateX(25deg); transition: transform 0.5s;">Discover</h1>
+            <h5 style="font-size: 1.5em; color: #6c757d; letter-spacing: 2px; transform: rotateX(15deg); transition: transform 0.5s;">The Elegance of Interior</h5>
+
+            <div id="gtco-counter" class="gtco-section">
+                <div class="gtco-container">
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                            <div class="feature-center">
+                                <span class="counter js-counter" data-from="0" data-to="196" data-speed="10" data-refresh-interval="50">1</span>
+                                <span class="counter-label">Quốc Gia</span>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                            <div class="feature-center">
+                                <span class="counter js-counter" data-from="0" data-to="97" data-speed="100000" data-refresh-interval="50">1</span>
+                                <span class="counter-label">Sản Phẩm</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                            <div class="feature-center">
+                                <span class="counter js-counter" data-from="0" data-to="12402" data-speed="100000" data-refresh-interval="50">1</span>
+                                <span class="counter-label">Số Lượng Đã Mua</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                            <div class="feature-center">
+                                <span class="counter js-counter" data-from="0" data-to="12202" data-speed="100000" data-refresh-interval="50">1</span>
+                                <span class="counter-label">Số Lượng Đánh Giá </span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" style="display: inline-block; padding: 10px 20px; background-color: #09C6AB; color: #ffffff; text-decoration: none; font-size: 1.2em; border-radius: 5px; transform: rotateX(5deg); transition: transform 0.5s;" onmouseover="zoomIn(this)" onmouseout="zoomOut(this)">See More</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function zoomIn(element) {
+        element.style.transform = "scale(1.1) rotateX(5deg)";
+        element.parentElement.querySelector('h1').style.transform = "rotateX(25deg) translateY(10px)";
+        element.parentElement.querySelector('h5').style.transform = "rotateX(15deg) translateY(5px)";
+        element.parentElement.querySelector('p').style.transform = "rotateX(10deg) translateY(2px)";
+    }
+
+    function zoomOut(element) {
+        element.style.transform = "scale(1) rotateX(5deg)";
+        element.parentElement.querySelector('h1').style.transform = "rotateX(25deg)";
+        element.parentElement.querySelector('h5').style.transform = "rotateX(15deg)";
+        element.parentElement.querySelector('p').style.transform = "rotateX(10deg)";
+    }
+</script>
+
+<style>
+    .banner {
+        height: 500px;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .banner_item {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+        background-repeat: no-repeat;
+        border-radius: 5px;
+        background-size: cover;
+        background-position: center center;
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+        .banner_item:hover {
+            transform: scale(1.1);
+        }
+
+    .banner_category {
+        height: 50px;
+        background: #FFFFFF;
+        min-width: 180px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+        .banner_category a {
+            display: block;
+            color: #1e1e27;
+            text-transform: uppercase;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 50px;
+            width: 100%;
+            -webkit-transition: color 0.3s ease;
+            -moz-transition: color 0.3s ease;
+            /*-ms-transition: color 0.3s ease;*/
+            -o-transition: color 0.3s ease;
+            transition: color 0.3s ease;
+        }
+
+            .banner_category a:hover {
+                color: #b5aec4;
+            }
+    /* Định dạng các nhãn và số đếm */
+    .feature-center {
+        text-align: center; /* Căn giữa nội dung */
+    }
+
+    .counter-label {
+        text-transform: uppercase; /* Chuyển thành chữ in hoa */
+        font-weight: bold; /* In đậm chữ */
+        font-size: 16px; /* Kích thước chữ */
+        color: #333; /* Màu sắc chữ */
+    }
+
+    .counter {
+        font-family: 'Arial', sans-serif; /* Chọn font chữ */
+        font-size: 36px; /* Kích thước chữ */
+        font-weight: bold; /* In đậm chữ */
+        color: #000; /* Màu sắc chữ */
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $(".banner_item").mouseenter(function () {
+            $(this).css("transform", "scale(1.1)");
+        });
+
+        $(".banner_item").mouseleave(function () {
+            $(this).css("transform", "scale(1)");
+        });
+    });
+</script>
+<script>
+    // Đợi tất cả các tài nguyên trong trang được tải xong trước khi chạy mã JavaScript
+    $(document).ready(function () {
+        $('.counter').each(function () {
+            var $this = $(this);
+            var countTo = $this.attr('data-to');
+
+            $({ countNum: $this.text() }).animate(
+                { countNum: countTo },
+                {
+                    duration: 50000, // Thời gian để chạy từ số hiện tại đến số cần đạt
+                    easing: 'linear',
+                    step: function () {
+                        $this.text(Math.floor(this.countNum));
+                    },
+                    complete: function () {
+                        $this.text(this.countNum);
+                    }
+                }
+            );
+        });
+    });
+</script>
+
+<div class="banner">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="banner_item align-items-center" style="background-image: url('../../Content/images/Pic/pic.jpg');">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="banner_item align-items-center" style="background-image: url('../../Content/images/Pic/pic_1.jpg');">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="banner_item align-items-center" style="background-image: url('../../Content/images/Pic/pic_2.jpg');">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="banner_item align-items-center" style="background-image: url('../../Content/images/Pic/pic_3.jpg');">
+            </div>
+        </div>
+    </div>
+</div>
+

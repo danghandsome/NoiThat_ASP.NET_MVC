@@ -1,0 +1,142 @@
+﻿@model NoiThat.Models.User
+
+@{
+    ViewBag.Title = "ChinhSuaThongTin";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+
+<h2>Chỉnh Sửa Thông Tin</h2>
+
+@using (Html.BeginForm("ChinhSuaThongTin", "Khachhang", FormMethod.Post))
+
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.UserName)
+    @Html.HiddenFor(model => model.Password)
+    @Html.HiddenFor(model => model.Img)
+    @Html.HiddenFor(model => model.Status)
+
+    <div class="form-horizontal">
+        <h4>User</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "ThongTinCaNhan")
+</div>
+
+<style>
+    /* Căn giữa phần tử h2 */
+    h2 {
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+
+    /* Định dạng form */
+    .form-horizontal {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Định dạng label và input */
+    .control-label {
+        font-weight: bold;
+    }
+
+    /* Định dạng các form group */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Định dạng nút Save */
+    .btn-default {
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Định dạng link Back to List */
+    a {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    /* Định dạng validation summary */
+    .text-danger {  
+        color: red;
+        font-size: 14px;
+        text-align: center;
+    }
+    body {
+        background-image: url('/Content/images/Pic/back-5.jpg'); /* Đường dẫn tới hình ảnh */
+        background-size: cover; /* Đảm bảo hình ảnh sẽ được kích thước phù hợp với kích thước trình duyệt */
+        background-position: center; /* Căn hình ảnh vào giữa trang */
+        background-repeat: no-repeat; /* Không lặp lại hình ảnh nền */
+    }
+    .container {
+        background-color: rgba(255, 255, 255, 0.9); /* Điều chỉnh màu nền cho phần nội dung */
+        padding: 20px; /* Tạo khoảng cách giữa nội dung và viền */
+    }
+
+
+</style>

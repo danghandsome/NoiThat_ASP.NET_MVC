@@ -1,0 +1,311 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head style="background-color:mistyrose">
+    @RenderSection("scripts", required: false)
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=604800" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="~/Content/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <!-- jQuery -->
+    <script src="~/Content/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+
+    <!-- Bootstrap4 files-->
+    <script src="~/Content/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+    <!-- Font awesome 5 -->
+    <link href="~/Content/fonts/fontawesome/css/all.min.css" type="text/css" rel="stylesheet">
+
+    <!-- custom style -->
+    <link href="~/Content/css/ui.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" type="text/css" />
+
+
+
+    <script src="/assets/pdfjs/pdf.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/client/vendor/choices/css/choices.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/client/vendor/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/assets/client/vendor/plyr/plyr.css" />
+    <script src="/assets/client/vendor/choices/js/choices.min.js"></script>
+    <script src="/assets/client/vendor/aos/aos.js"></script>
+    <script src="/assets/client/vendor/plyr/plyr.js"></script>
+
+    <script src="/assets/admin/libs/bootstrap/js/bootbox.min.js"></script>
+
+
+    <script src="/assets/admin/libs/jquery/jquery.min.js"></script>
+    <script src="/assets/admin/libs/jquery/jquery.unobtrusive-ajax.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="/assets/client/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Vendors -->
+    <script src="/assets/client/vendor/tiny-slider/tiny-slider.js"></script>
+    <script src="/assets/client/vendor/glightbox/js/glightbox.js"></script>
+    <script src="/assets/client/vendor/purecounterjs/dist/purecounter_vanilla.js"></script>
+    <script src="~/Public/js/productController.js"></script>
+    <!-- Template Functions -->
+    <script src="/assets/client/js/functions.js"></script>
+    <!-- custom javascript -->
+    <script src="~/Content/js/script.js" type="text/javascript"></script>
+
+    @RenderSection("header", required: false)
+</head>
+<body style="background-color:#f0f8ff">
+
+    <header class="section-header">
+        <section class="header-main border-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-2 col-lg-3 col-md-12">
+                        <a href="~/" class="brand-wrap">
+                            <img class="logo" style="width:150px" src="~/Public/images/logo.jpg">
+                        </a> <!-- brand-wrap.// -->
+                    </div>
+
+                    <div class="col-xl-6 col-lg-5 col-md-6 row">
+                        <div class="col-md-6 input-group w-100">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+
+                        <div class="col-md-2 input-group-append">
+                            <a class="btn-primary form-control" href="~/tim-kiem" onclick="zoomIn(this)">
+                                <i class="fa fa-search"></i>
+                                <span class="search-text">Search</span>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                    <div class="col-xl-4 col-lg-4 col-md-6">
+                        <div class="widgets-wrap float-md-right">
+                            <div class="widget-header mr-3">
+                                <div class="icon-area">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href=""> <i class="fa fa-user"></i> </a>
+
+                                    @if (Session["UserCustomer"].Equals(""))
+                                    {
+                                        <div class="dropdown-menu user-menu">
+                                            <a class="dropdown-item" href="~/dang-nhap">Đăng nhập </a>
+                                            <a class="dropdown-item" href="~/dang-ky">Đăng Ký </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="dropdown-menu user-menu">
+                                            <a class="dropdown-item" href="~/thong-tin-ca-nhan"> Thông tin cá nhân </a>
+                                            <a class="dropdown-item" href="~/don-hang-ca-nhan"> Đơn hàng của tôi </a>
+                                            <a class="dropdown-item" href="@Url.Action("DangXuat","Khachhang")">Đăng Xuất </a>
+                                        </div>
+                                    }
+
+                                </div>
+                                <small class="text"> Thông tin </small>
+                            </div>
+
+                            <div class="widget-header">
+                                @{
+                                    int soluong = 0;
+                                    if (!System.Web.HttpContext.Current.Session["MyCart"].Equals(""))
+                                    {
+                                        List<CartItem> listcart = (List<CartItem>)System.Web.HttpContext.Current.Session["MyCart"];
+                                        soluong = listcart.Count();
+                                    }
+                                }
+                                <a href="~/gio-hang" class="widget-view">
+                                    <div class="icon-area">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        @if (soluong != 0)
+                                        {
+                                            <span class="notify">
+                                                @soluong
+                                            </span>
+                                        }
+                                    </div>
+                                    <small class="text"> Giỏ hàng </small>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- widgets-wrap.// -->
+                    </div> <!-- col.// -->
+
+
+
+
+
+
+
+
+                </div> <!-- row.// -->
+            </div> <!-- container.// -->
+        </section> <!-- header-main .// -->
+        @Html.Action("MainMenu", "Module")
+
+    </header> <!-- section-header.// -->
+
+    @RenderBody()
+
+    <!-- ========================= FOOTER ========================= -->
+    <footer class="section-footer bg-secondary" style="margin-top:20px;">
+        <div style="background-color:black">
+            <section class="footer-top padding-y-lg text-white">
+                <div class="row">
+                    <aside class="col-md col-6">
+                        <div class="col-xl-2 col-lg-3 col-md-12">
+                            <a href="@Url.Action("")" class="brand-wrap">
+                                <img class="logo" src="~/Public/images/logo1.jpg" style="width:200px">
+                            </a> <!-- brand-wrap.// -->
+                        </div>
+                    </aside>
+                    <aside class="col-md col-6">
+                        @Html.Action("SupplierFooter", "Module")
+                    </aside>
+                    <aside class="col-md col-6">
+                        @Html.Action("MenuFooter", "Module")
+                    </aside>
+                    <aside class="col-md">
+                        <h6 class="title">SOCIAL</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="https://www.facebook.com/" class="fab fa-facebook"> Facebook </a></li>
+                            <li><a href="https://twitter.com/" class="fab fa-twitter"> Twitter </a></li>
+                            <li><a href="https://www.instagram.com/" class="fab fa-instagram"> Instagram </a></li>
+                            <li><a href="https://www.youtube.com/" class="fab fa-youtube"> Youtube </a></li>
+                        </ul>
+                    </aside>
+                </div> <!-- row.// -->
+            </section>	<!-- footer-top.// -->
+
+            <section class="footer-bottom text-center">
+
+                <p class="text-white">Privacy Policy - Terms of Use - User Information Legal Enquiry Guide</p>
+                <p class="text-muted"> &copy 2023 Company name, All rights reserved </p>
+                <br>
+            </section>
+        </div><!-- //container -->
+    </footer>
+    <!-- ========================= FOOTER END // ========================= -->
+    @RenderSection("footer", required: false)
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "196082903582094");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v18.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</body>
+</html>
+<style>
+    /* Định dạng input */
+    .input-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-control {
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        background-color: #f5f5f5;
+        height: 45px;
+    }
+
+    /* Định dạng nút Search */
+    .btn-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        height: 45px;
+        padding: 0 20px;
+        transition: transform 0.3s ease; /* Thêm transition cho hiệu ứng */
+    }
+
+    .search-text {
+        margin-left: 5px; /* Khoảng cách giữa biểu tượng và chữ */
+    }
+    /* CSS cho phần user-menu */
+    .user-menu {
+        position: absolute;
+        top: 40px;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        z-index: 999;
+    }
+
+        .user-menu a {
+            display: block;
+            padding: 8px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+            .user-menu a:hover {
+                background-color: #f5f5f5;
+            }
+
+    /* CSS cho phần notify */
+    .notify {
+        background-color: #ff0000;
+        color: #fff;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+    }
+
+    /* CSS cho phần icon-area */
+    .icon-area {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* CSS cho phần widget-header */
+    .widget-header {
+        margin-top: 15px;
+    }
+
+    /* CSS cho phần text nhỏ */
+    .text {
+        font-size: 14px;
+        color: #888;
+    }
+</style>

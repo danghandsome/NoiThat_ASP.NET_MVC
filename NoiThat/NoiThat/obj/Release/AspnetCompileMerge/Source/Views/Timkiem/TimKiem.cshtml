@@ -1,0 +1,102 @@
+﻿@model PagedList.IPagedList<NoiThat.Models.ProductInfo>
+
+@{
+    var category = ViewBag.Category;
+}
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = category.Name;
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+    <div class="container">
+
+
+        <!-- ============================  FILTER TOP  ================================= -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <ol class="breadcrumb float-left">
+                    <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">@category.Name</a></li>
+                </ol>
+            </div> <!-- card-body .// -->
+        </div> <!-- card.// -->
+        <!-- ============================ FILTER TOP END.// ================================= -->
+
+
+        <div class="row">
+            <aside class="col-md-2">
+                @Html.Action("ListCategory", "Module")
+
+            </aside> <!-- col.// -->
+            <main class="col-md-10">
+                @foreach (var product in Model)
+                {
+                    <article class="card card-product-list">
+                        <div class="row no-gutters">
+                            <aside class="col-md-3">
+                                <a href="~/@product.Slug" class="img-wrap">
+                                    @{
+                                        DateTime date = DateTime.Now;
+                                    }
+                                    @if (product.CreatedAt.Value.Day - date.Day <= 7)
+                                    {
+                                        <span class="badge badge-danger"> NEW</span>
+                                    }
+                                    <img class="img-sm float-right" src="~/Public/images/products/@product.Img">
+                                </a>
+                            </aside> <!-- col.// -->
+                            <div class="col-md-6">
+                                <div class="info-main">
+                                    <a href="~/@product.Slug" class="h5 title"> @product.Name</a>
+
+                                    <p>
+                                        @product.Detail
+                                    </p>
+                                </div> <!-- info-main.// -->
+                            </div> <!-- col.// -->
+                            <aside class="col-sm-3">
+                                <div class="info-aside">
+                                    <div class="price-wrap">
+                                        <del>
+                                            <span class="h5 pric text-danger">@string.Format("{0:0,0}", product.PriceSale)</span>
+                                        </del>
+                                        <small class="text-muted">đ</small>
+                                    </div> <!-- price-wrap.// -->
+                                    <div class="price-wrap">
+
+                                        <span class="h5 pric text-danger">@string.Format("{0:0,0}", product.Price)</span>
+                                        <small class="text-muted">đ</small>
+                                    </div> <!-- price-wrap.// -->
+
+                                    <p class="mt-3">
+                                        <a href="@Url.Action("CartAdd","GioHang", new {productId=product.id})" class="btn btn-outline-primary"> <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng </a>
+                                    </p>
+
+
+
+                                </div> <!-- info-aside.// -->
+                            </aside> <!-- col.// -->
+                        </div> <!-- row.// -->
+                    </article> <!-- card-product .// -->
+                }
+
+
+                <nav class="mb-4" aria-label="Page navigation sample">
+                    <ul class="pagination">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "Site", new { page }))
+
+                    </ul>
+                </nav>
+
+            </main> <!-- col.// -->
+
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->

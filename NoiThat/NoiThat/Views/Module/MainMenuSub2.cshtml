@@ -1,0 +1,20 @@
+﻿@model IEnumerable<NoiThat.Models.Menu>
+
+
+@{
+    var menu = ViewBag.Menu;
+}
+
+@{
+    Layout = null;
+}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle"  style="color:black" data-toggle="dropdown" href="@menu.Link"> @menu.Name </a>
+    <div class="dropdown-menu">
+        @foreach (var item in Model)
+        {
+
+            <a class="dropdown-item" href="@item.Link">@item.Name</a>
+        }
+    </div>
+</li>

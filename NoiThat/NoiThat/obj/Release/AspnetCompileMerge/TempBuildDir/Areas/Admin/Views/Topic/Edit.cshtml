@@ -1,0 +1,84 @@
+﻿@model NoiThat.Models.Topic
+
+@{
+    ViewBag.Title = "Cập nhật danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.CreatedAt)
+    @Html.HiddenFor(model => model.CreatedBy)
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content my-2">
+
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong class="text-danger text-uppercase">CẬP NHẬT DANH MỤC SẢN PHẨM</strong>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="@Url.Action("Index","Topic")" class="btn btn-sm btn-info"><i class="fa fa-backward"></i> Về danh sách</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label>Tên loại <span class="text-danger">(*)</span></label>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Từ khóa <span class="text-danger">(*)</span></label>
+                                @Html.TextAreaFor(model => model.MetaKey, new { @class = "form-control", @rows = "3" })
+                                @Html.ValidationMessageFor(model => model.MetaKey, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mô tả <span class="text-danger">(*)</span></label>
+                                @Html.TextAreaFor(model => model.MetaDes, new { @class = "form-control", @rows = "3" })
+                                @Html.ValidationMessageFor(model => model.MetaDes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Danh mục cha</label>
+                                @Html.DropDownListFor(model => model.ParentId, (SelectList)ViewBag.ListCat, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Sắp xếp</label>
+                                @Html.DropDownListFor(model => model.Orders, (SelectList)ViewBag.ListOrder, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Orders, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                @Html.DropDownListFor(model => model.Status, new[] { new SelectListItem { Text = "Không có", Value = "2" }, new SelectListItem { Text = "Có", Value = "1" } }, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm btn-success" type="submit" name="create"><i class="fa fa-save"></i> Cập nhật</button>
+
+                </div>
+            </div>
+            <!-- /.card -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+}

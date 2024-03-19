@@ -1,0 +1,236 @@
+﻿@model IEnumerable<CartItem>
+
+@{
+    ViewBag.Title = "ThanhToan";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+@{
+    var user = ViewBag.user;
+}
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/gio-hang">Giỏ hàng</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+        </ol>
+    </div>
+</section>
+@using (Html.BeginForm("DatMua", "Giohang", FormMethod.Post))
+{
+    <section class="section-content padding-y">
+        <div class="container">
+            @{ decimal tongtien = 0;}
+
+            <div class="row">
+                <main class="col-md-9">
+                    <div class="card">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col" width="120">Số lượng</th>
+                                    <th scope="col" width="120">Tổng</th>
+                                    <th scope="col" class="text-right" width="200"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cart in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <figure class="itemside">
+                                                <div class="aside"><img src="~/Public/images/products/@cart.Img" class="img-sm"></div>
+                                                <figcaption class="info">
+                                                    <a href="#" class="title text-dark">@cart.Name</a>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <div class="form-group col-md flex-grow-1">
+                                                <div class="input-group mb-3 input-spinner">
+                                                    <div class="input-group-prepend">
+
+                                                        @cart.Qty
+
+                                                    </div>
+                                                </div>
+                                            </div> <!-- col.// -->
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">@string.Format("{0:0,0}", cart.Amount)<small>đ</small></var>
+                                                <small class="text-muted">Giá: @string.Format("{0:0,0}", cart.Price)đ</small>
+                                            </div> <!-- price-wrap .// -->
+                                        </td>
+
+                                    </tr>
+                                    tongtien += cart.Amount;
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="card-body border-top">
+
+                            <div class="form-group">
+                                <label>Hình thức thanh toán</label>
+                                <select class="form-control" name="TypePayment" id="drTypePayment">
+                                    <option value="1" selected>
+                                        Thanh toán khi giao hàng (COD)
+                                    </option>
+                                    <option value="2">
+                                        Chuyển khoản qua ngân hàng VNPay
+                                    </option>
+                                    <option value="3">
+                                        Thanh toán online qua ví Momo tự tạo qrcode :v
+                                    </option>
+                                    <option value="4">
+                                        Thanh toán online qua ứng dụng ZaloPay bằng QRCode
+                                    </option>
+                                    <option value="5">
+                                        Thanh toán online qua cổng ZaloPay bằng thẻ ATM nội địa
+                                    </option>
+                                    <option value="6">
+                                        Thanh toán online qua cổng ZaloPay bằng thẻ Visa/Master/JCB
+                                    </option>
+                                    <option value="7">
+                                        Thanh toán online qua ví Paypal
+                                    </option>
+                                    <option value="8">
+                                        Thanh toán online qua ví Momo dùng api do Momo cung cấp
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary float-md-right" type="submit" value="Thanh toán">Thanh toán</button>
+                            </div>
+                            <a href="~/gio-hang" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Về giỏ hàng </a>
+                        </div>
+                    </div> <!-- card.// -->
+
+                    <div class="alert alert-success mt-3">
+                        <p class="icontext"><i class="icon text-success fa fa-truck"></i> Cam kết giao trong 1-2 tuần</p>
+                    </div>
+
+                </main> <!-- col.// -->
+                <aside class="col-md-3">
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label>Giảm giá bằng điểm thưởng</label>
+                                </div>
+                                @{
+                                    NoiThat.DAO.UserDAO userDAO = new NoiThat.DAO.UserDAO();
+                                    var score = userDAO.getScore(int.Parse(Session["UserId"].ToString()));
+                                }
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="diemthuong" placeholder="@score">
+                                    
+                                </div>
+                            </form>
+                        </div> <!-- card-body.// -->
+                    </div> <!-- card .// -->
+                    <div class="card">
+                        <h4 class="text-center">Thông tin người đặt</h4>
+                        <div class="card-body">
+                            <dl class="dlist-align">
+                                <dt>Họ tên:</dt>
+                                <dd name="FullName" class="text-right">@user.FullName</dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt>Điện thoại:</dt>
+                                <dd name="Phone" class="text-right">@user.Phone</dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt>Địa chỉ:</dt>
+                                <dd name="Address" class="text-right">123 Đường Đống Đa Quận 9 TP.HCM</dd>
+                            </dl>
+                            <div class="form-group my-2">
+                                <label>Ghi chú:</label>
+                            </div>
+                            <textarea name="Note" class="form-control" rows="2"></textarea>
+                        </div> <!-- card-body.// -->
+                    </div>  <!-- card .// -->
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <dl class="dlist-align">
+                                <dt>Thành tiền:</dt>
+                                <dd class="text-right  h5"><strong>@string.Format("{0:0,0}", tongtien)<small>đ</small></strong></dd>
+                            </dl>
+                            <hr>
+                            <p class="text-center mb-3">
+                                <img src="~/Content/images/misc/payments.png" height="26">
+                            </p>
+
+                        </div> <!-- card-body.// -->
+                    </div>  <!-- card .// -->
+                </aside> <!-- col.// -->
+            </div>
+
+        </div> <!-- container .//  -->
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        // Sự kiện khi giá trị của trường input "diemthuong" thay đổi
+        $('input[name="diemthuong"]').on('input', function () {
+            // Lấy giá trị nhập vào
+            var diemthuongValue = parseFloat($(this).val()) || 0;
+
+            // Lấy giá trị hiện tại của tongtien
+            var tongtienValue = parseFloat('@tongtien'.replace(/[^\d.-]/g, '')) || 0;
+
+            // Giảm giá trị tongtien tương ứng
+            var newTongtien = tongtienValue - diemthuongValue;
+
+            // Cập nhật giá trị tongtien
+            $('dd.text-right.h5 strong').text(formatCurrency(newTongtien));
+        });
+
+        // Hàm định dạng số tiền thành chuỗi định dạng
+        function formatCurrency(number) {
+            return number.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + 'đ';
+        }
+    });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        // Lấy giá trị hiện tại của score từ Razor
+        var scoreLimit = parseInt('@score');
+
+        // Sự kiện khi giá trị của trường input "diemthuong" thay đổi
+        $('input[name="diemthuong"]').on('input', function () {
+            // Lấy giá trị nhập vào
+            var diemthuongValue = parseInt($(this).val()) || 0;
+
+            // Kiểm tra nếu giá trị vượt quá giới hạn
+            if (diemthuongValue > scoreLimit) {
+                // Nếu vượt quá, đặt giá trị của ô là giới hạn
+                $(this).val(scoreLimit);
+            }
+        });
+    });
+        $(document).ready(function () {
+            // Sự kiện khi giá trị của trường input "diemthuong" thay đổi
+            $('input[name="diemthuong"]').on('input', function () {
+                // Lấy giá trị nhập vào
+                var diemthuongValue = $(this).val();
+
+                // Loại bỏ các ký tự không phải số
+                var numericValue = diemthuongValue.replace(/\D/g, '');
+
+                // Cập nhật giá trị ô với số đã loại bỏ ký tự không hợp lệ
+                $(this).val(numericValue);
+            });
+        });
+    </script>
+}
+

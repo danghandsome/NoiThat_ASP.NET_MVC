@@ -1,0 +1,113 @@
+﻿@model NoiThat.Models.Post
+
+@{
+    ViewBag.Title = "PostDetail";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+@using NoiThat.DAO;
+@using NoiThat.Models;
+
+@{
+    TopicDAO topicDAO = new TopicDAO();
+    Topic topic = topicDAO.getRow(Model.TopicId);
+
+}
+
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/@topic.Slug">@topic.Name</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+        </ol>
+    </div>
+</section>
+
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content bg-white padding-y">
+    <div class="container">
+
+        <!-- ============================ ITEM DETAIL ======================== -->
+        <div class="row">
+            <article class="product-info-aside">
+
+                <div><img class="img img-fluid" src="~/Public//images/posts/@Model.Img" /></div>
+
+                <h2 class="title mt-3 text-center">@Model.Title </h2>
+                <p>@Model.MetaDes</p>
+                <p></p>
+                <p>@Model.Detail</p>
+
+            </article> <!-- product-info-aside .// -->
+        </div> <!-- row.// -->
+        <!-- ================ ITEM DETAIL END .// ================= -->
+
+        <a href="javascript: history.back()" class="btn btn-light my-3"> &laquo Go back</a>
+
+    </div> <!-- container .//  -->
+</section>
+<style>
+    /* Định dạng breadcrumb */
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+        .breadcrumb-item a:hover {
+            color: #007bff; /* Màu khi hover */
+        }
+
+    .breadcrumb-item.active {
+        color: #007bff; /* Màu cho breadcrumb active */
+    }
+
+    /* Định dạng phần chi tiết bài viết */
+    .section-content {
+        padding: 40px 0;
+    }
+
+    .product-info-aside {
+        text-align: center;
+    }
+
+        .product-info-aside img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .product-info-aside h2.title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .product-info-aside p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+    /* Định dạng nút "Go back" */
+    .btn-light {
+        color: #007bff;
+        border-color: #007bff;
+        background-color: transparent;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-light:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+</style>

@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<NoiThat.Models.PostInfo>
+
+@{
+    var topic = ViewBag.Topic;
+}
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "PostTopic";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<section class="section-content padding-y">
+    <div class="container">
+        <!-- ============================  FILTER TOP  ================================= -->
+        <div class="card mb-3">
+            <div class="card-body">
+                <ol class="breadcrumb float-left">
+                    <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">@topic.Name</a></li>
+                </ol>
+            </div> <!-- card-body .// -->
+        </div> <!-- card.// -->
+        <!-- ============================ FILTER TOP END.// ================================= -->
+
+
+        <div class="row">
+            <aside class="col-md-2">
+                @Html.Action("ListCategory", "Module")
+
+            </aside> <!-- col.// -->
+            <main class="col-md-10">
+                @foreach (var post in Model)
+                {
+                    <article class="card card-post-list">
+                        <div class="row no-gutters">
+                            <aside class="col-md-3">
+                                <a href="~/@post.Slug" class="img-wrap">
+                                    @{
+                                        DateTime date = DateTime.Now;
+
+
+                                    }
+                                    @if (post.CreatedAt.Value.Day - date.Day <= 7)
+                                    {
+                                        <span class="badge badge-danger"> NEW</span>
+                                    }
+                                    <img class="img-sm float-right" src="~/Public/images/posts/@post.Img">
+                                </a>
+                            </aside> <!-- col.// -->
+                            <div class="col-md-6">
+                                <div class="info-main">
+                                    <a href="~/@post.Slug" class="h5 title"> @post.Title</a>
+
+                                    <p>
+                                        @post.Detail
+                                    </p>
+                                </div> <!-- info-main.// -->
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                    </article> <!-- card-post .// -->
+                }
+            </main> <!-- col.// -->
+        </div>
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->

@@ -1,0 +1,120 @@
+﻿@model IEnumerable<NoiThat.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section header{
+    <link href="~/Public/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+@section footer{
+    <script src="~/Public/js/jquery.dataTables.min.js"></script>
+    <script>let table = new DataTable('#myTable');</script>
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content my-2">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong class="text-danger text-uppercase">DANH MỤC người dùng</strong>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="@Url.Action("Create","User")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>Thêm</a>
+                        <a href="@Url.Action("Trash","User")" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>Thùng rác</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @Html.Partial("Message")
+
+                <table class="table table-bordered table-striped" id="myTable">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">
+                                Hình
+                            </th>
+                            <th>
+                                Họ và tên
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th>
+                                Địa chỉ
+                            </th>
+                            <th>
+                                Giới tính
+                            </th>
+                            <th>
+                                Chức vụ
+                            </th>
+
+                            <th class="text-center" style="width:180px">Chức năng</th>
+                            <th class="text-center" style="width:20px">ID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/Public/images/user/@item.Img" class="img-fluid" alt="Logo" />
+                                </td>
+
+                                <td>
+                                    @item.FullName
+                                </td>
+                                <td>
+                                    @item.Email
+                                </td>
+                                <td>
+                                    @item.Phone
+                                </td>
+                                <td>
+                                    @item.Address
+                                </td>
+                                <td>
+                                    @if (item.Gender == 1)
+                                    {
+                                        <label>Nam</label>
+                                    }
+                                    else
+                                    {
+                                        <label>Nữ</label>
+                                    }
+                                </td>
+                                <td>
+                                    @item.Roles
+                                </td>
+
+                                <td class="text-center">
+
+                                    <a href="@Url.Action("Details","User", new { id = item.id })" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                    <a href="@Url.Action("Edit","User", new { id = item.id })" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                                </td>
+                                <td>@item.id</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

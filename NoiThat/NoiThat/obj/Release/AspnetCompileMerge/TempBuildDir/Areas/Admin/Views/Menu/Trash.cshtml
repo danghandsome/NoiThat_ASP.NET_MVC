@@ -1,0 +1,175 @@
+﻿@model IEnumerable<NoiThat.Models.Menu>
+
+@{
+    ViewBag.Title = "Trash";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+
+@section header{
+    <link href="~/Public/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+@section footer{
+    <script src="~/Public/js/jquery.dataTables.min.js"></script>
+    <script>let table=new DataTable('#myTable');</script>
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content my-2">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong class="text-danger text-uppercase">Thùng rác DANH MỤC SẢN PHẨM</strong>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="@Url.Action("Index","Menu")" class="btn btn-sm btn-info"><i class="fa fa-backward"></i> Về danh sách</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @Html.Partial("Message")
+
+                <table class="table table-bordered table-striped" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width:20px">#</th>
+                            <th>
+                                Tên Menu
+                            </th>
+                            <th>
+                                Liên kết
+                            </th>
+                            <th>
+                                Kiểu menu
+                            </th>
+                            <th>
+                                Vị trí
+                            </th>
+
+                            <th class="text-center" style="width:120px">Chức năng</th>
+                            <th class="text-center" style="width:20px">ID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="checkId" value="" />
+                                </td>
+
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.Link
+                                </td>
+
+                                <td>
+                                    @item.TypeMenu
+                                </td>
+                                <td>
+                                    @item.Position
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="@Url.Action("Retrash","Menu", new { id = item.id })" class="btn btn-sm btn-info"><i class="fa fa-trash-restore"></i></a>
+                                    <a href="@Url.Action("Delete","Menu", new { id = item.id })" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+
+                                </td>
+                                <td>@item.id</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+
+<h2>Trash</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Link)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeMenu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Position)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TableId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Orders)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Link)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeMenu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Orders)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

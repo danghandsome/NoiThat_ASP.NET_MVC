@@ -1,0 +1,166 @@
+﻿@model NoiThat.Models.Product
+
+@{
+    ViewBag.Title = "Chi tiết danh mục sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content my-2">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>chi tiết danh mục sản phẩm</strong>
+                    </div>
+                    <div class="col-6 text-right">
+
+                        <a href="@Url.Action("Edit","Product", new { id = Model.id })" class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Cập nhật</a>
+                        <a href="@Url.Action("Index","Product")" class="btn btn-sm btn-info"><i class="fa fa-backward"></i> Về danh sách</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width:120px">Tên trường</th>
+                        <th>Nội dung</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Name)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Slug)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Slug)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Link hình ảnh
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Img)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Chi tiết
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Detail)
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.MetaKey)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.MetaKey)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.MetaDes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.MetaDes)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Number)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.SupplierId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.SupplierId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Price)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.PriceSale)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.PriceSale)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.CreatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.CreatedBy)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.CreatedAt)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.UpdatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.UpdatedBy)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.UpdatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.UpdatedAt)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Status)
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

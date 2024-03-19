@@ -1,0 +1,24 @@
+﻿@model IEnumerable<NoiThat.Models.Menu>
+
+@{
+    Layout = null;
+}
+<nav class="navbar navbar-main navbar-expand-lg border-bottom">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav">
+                @foreach (var menu in Model)
+                {
+                    @Html.Action("MainMenuSub", "Module", new {@id=menu.id})
+                }
+
+            </ul>
+        </div> <!-- collapse .// -->
+    </div> <!-- container .// -->
+</nav>
+
+

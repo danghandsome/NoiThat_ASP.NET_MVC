@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="StrConnect-Web.config Connection String" description="StrConnect Connection String used in web.config by the application to access the database." defaultValue="Data Source=Dang-Handsome\DANGHANDSOME;Initial Catalog=NoiThat;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\DACN\\NoiThat\ -\ Copy\\NoiThat\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StrConnect']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "DatHangThanhCong";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+
+</head>
+<style>
+    h1 {
+        color: #88B04B;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    p {
+        color: #404F5E;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .card {
+        text-align: center;
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .checkmark-circle {
+        border-radius: 200px;
+        height: 200px;
+        width: 200px;
+        background: #F8FAF5;
+        margin: 0 auto;
+    }
+
+    .checkmark {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+</style>
+
+<h1>Thanh Toán Thành Công</h1>
+
+    <div id="main-content-wp" class="checkout-success">
+        <div id="wrapper" class="wp-inner clearfix">
+            <div class="section" id="checkout-success">
+                <div class="section-detail table-responsive text-center">
+                    <div class="card">
+                        <div class="checkmark-circle">
+                            <i class="checkmark animate__animated animate__heartBeat">✓</i>
+                        </div>
+                        <h1 class="animate__animated animate__zoomIn">Success</h1>
+                        <p>
+                            Bạn đã thanh toán thành công với số tiền thanh toán (VND): @string.Format("{0:0,0}", ViewBag.ThanhToanThanhCong)<small class="text-muted">đ</small>
+
+                        </p>
+                        <p><strong>Bạn có @ViewBag.TichDiem điểm thưởng</strong></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<p>@ViewBag.InnerText</p>
+
+

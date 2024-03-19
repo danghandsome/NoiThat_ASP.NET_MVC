@@ -1,0 +1,171 @@
+﻿@model IEnumerable<CartItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
+        </ol>
+    </div>
+</section>
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+    <div class="container">
+        @{decimal tongtien = 0;}
+
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
+                    @if (Model != null)
+                    {
+
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col" width="120">Số lượng</th>
+                                    <th scope="col" width="120">Tổng</th>
+                                    <th scope="col" class="text-right" width="200"> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cart in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <figure class="itemside">
+                                                <div class="aside"><img src="~/Public/images/products/@cart.Img" class="img-sm"></div>
+                                                <figcaption class="info">
+                                                    <a href="#" class="title text-dark">@cart.Name</a>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <div class="form-group col-md flex-grow-1">
+                                                <div class="input-group mb-3 input-spinner">
+                                                    <div class="input-group-prepend">
+                                                        <a href="@Url.Action("CartPlus","GioHang", new {productId=cart.ProductId})" class="btn btn-light"> +</a>
+
+                                                        <input type="text" class="form-control" value="@cart.Qty">
+                                                        <a href="@Url.Action("CartMinus","GioHang", new {productId=cart.ProductId})" class="btn btn-light"> -</a>
+
+                                                    </div>
+                                                </div>
+                                            </div> <!-- col.// -->
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">@string.Format("{0:0,0}", cart.Amount)<small>đ</small></var>
+                                                <small class="text-muted">Giá: @string.Format("{0:0,0}", cart.Price)đ</small>
+                                            </div> <!-- price-wrap .// -->
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="@Url.Action("CartDel","GioHang", new {productId=cart.ProductId})" class="btn btn-light"> Xóa sản phẩm</a>
+                                        </td>
+                                    </tr>
+                                    tongtien += cart.Amount;
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h2 class="text-uppercase">Chưa có sản phẩm trong giỏ hàng</h2>
+                    }
+
+                    <div class="card-body border-top">
+                        @if (Model != null)
+                        {
+                            <a href="~/thanh-toan" class="btn btn-primary float-md-right"> Thanh toán <i class="fa fa-chevron-right"></i> </a>
+                        }
+                        <a href="~/" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Xem thêm sản phẩm </a>
+                    </div>
+                </div> <!-- card.// -->
+
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Cam kết giao trong 1-2 tuần</p>
+                </div>
+
+            </main> <!-- col.// -->
+            <aside class="col-md-3">
+                <!--<div class="card mb-3">
+                    <div class="card-body">-->
+                        @*<form>
+                                <div class="form-group">
+                                    <label>Mã giảm giá?</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="" placeholder="Nhập mã">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary">Apply</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>*@
+                        <!--<form id="discountForm" action="@Url.Action("ApplyDiscountCode", "Giohang")" method="post">
+                            <div class="form-group">
+                                <label>Mã giảm giá?</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="discountCode" id="discountCodeInput" placeholder="Nhập mã">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">Apply</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>--> <!-- card-body.// -->
+                <!--</div>-->  <!-- card .// -->
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Tổng tiền:</dt>
+                            <dd class="text-right">@string.Format("{0:0,0}", tongtien)<small>đ</small></dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Giảm giá:</dt>
+                            <dd class="text-right">0</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Thành tiền:</dt>
+                            <dd class="text-right  h5"><strong>@string.Format("{0:0,0}", tongtien)<small>đ</small></strong></dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="~/Content/images/misc/payments.png" height="26">
+                        </p>
+
+                    </div> <!-- card-body.// -->
+                </div>  <!-- card .// -->
+            </aside> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name border-top padding-y">
+    <div class="container">
+        <h6>Chính sách mua hàng</h6>
+        <p>
+            - Tiếp nhận mọi khiếu nại của khách hàng liên quan đến việc sử dụng dịch vụ của công ty.
+        </p>
+        <p>
+            - Tất cả mọi trường hơp bảo hành, quý khách có thể liên hệ với chúng tôi để làm thủ tục bảo hành.
+        </p>
+        <p>
+            - Thời gian giải quyết khiếu nại trong thời hạn tối đa là 03 (ba) ngày làm việc kể từ khi nhận được khiếu nại của của khách hàng. Trong trường hợp bất khả kháng 2 bên sẽ tự thương lượng.
+
+        </p><p>
+            Thông thường sau khi nhận được thông tin đặt hàng chúng tôi sẽ xử lý đơn hàng trong vòng 24h và phản hồi lại thông tin cho khách hàng về việc thanh toán và giao nhận. Thời gian giao hàng thường trong khoảng từ 3-5 ngày kể từ ngày chốt đơn hàng hoặc theo thỏa thuận với khách khi đặt hàng. Tuy nhiên, cũng có trường hợp việc giao hàng kéo dài hơn nhưng chỉ xảy ra trong những tình huống bất khả kháng như sau:
+
+
+        </p>
+
+    </div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->

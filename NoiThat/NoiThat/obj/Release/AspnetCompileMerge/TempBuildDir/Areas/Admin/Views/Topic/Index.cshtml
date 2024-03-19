@@ -1,0 +1,108 @@
+﻿@model IEnumerable<NoiThat.Models.Topic>
+
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section header{
+    <link href="~/Public/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+@section footer{
+    <script src="~/Public/js/jquery.dataTables.min.js"></script>
+    <script>let table=new DataTable('#myTable');</script>
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content my-2">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong class="text-danger text-uppercase">DANH MỤC SẢN PHẨM</strong>
+                    </div>
+                    <div class="col-6 text-right">
+                        <a href="@Url.Action("Create","Topic")" class="btn btn-sm btn-success"><i class="fa fa-plus"></i>Thêm</a>
+                        <a href="@Url.Action("Trash","Topic")" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>Thùng rác</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @Html.Partial("Message")
+
+                <table class="table table-bordered table-striped" id="myTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width:20px">#</th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.Name)
+                                    Câu gốc, lấy tên từ trong cơ sở dữ liệu*@
+                                @* cách 2: thay câu trên bằng tên luôn *@
+                                Tên danh mục
+                            </th>
+                            <th>
+                                Slug
+                            </th>
+                            <th>
+                                Ngày tạo
+                            </th>
+
+                            <th class="text-center" style="width:180px">Chức năng</th>
+                            <th class="text-center" style="width:20px">ID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="checkId" value="" />
+                                </td>
+
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Slug)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+
+                                <td class="text-center">
+                                    @if (item.Status == 1)
+                                    {
+                                        <a href="@Url.Action("Status","Topic", new { id = item.id })" class="btn btn-sm btn-success"><i class="fa fa-toggle-on"></i></a>
+
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Status","Topic", new { id = item.id })" class="btn btn-sm btn-danger"><i class="fa fa-toggle-off"></i></a>
+
+                                    }
+
+                                    <a href="@Url.Action("Details","Topic", new { id = item.id })" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                    <a href="@Url.Action("Edit","Topic", new { id = item.id })" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                                    <a href="@Url.Action("DelTrash","Topic", new { id = item.id })" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+
+                                </td>
+                                <td>@item.id</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

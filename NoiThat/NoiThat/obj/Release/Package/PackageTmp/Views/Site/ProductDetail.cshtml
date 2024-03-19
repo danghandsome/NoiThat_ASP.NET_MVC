@@ -1,0 +1,572 @@
+﻿@model NoiThat.Models.ProductInfo
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+
+    var listCmt = (List<NoiThat.Models.CommentInfo>)ViewBag.ListComment;
+}
+
+
+@using NoiThat.Library;
+@using NoiThat.DAO;
+@{ RateDAO rateDAO = new RateDAO();}
+
+
+<section class="py-3 bg-light">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Action("")">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/@XString.StrSlug(Model.CatName)">@Model.CatName</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </div>
+</section>
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content bg-white padding-y">
+    <div class="container">
+
+        <!-- ============================ ITEM DETAIL ======================== -->
+        <div class="row">
+            <aside class="col-md-6">
+                <div class="card">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap">
+                            <div> <a href="#"><img src="~/Public/images/products/@Model.Img"></a></div>
+                        </div> <!-- slider-product.// -->
+
+                    </article> <!-- gallery-wrap .end// -->
+                </div> <!-- card.// -->
+            </aside>
+            <main class="col-md-6">
+                <article class="product-info-aside">
+
+                    <h2 class="title mt-3">@Model.Name </h2>
+
+
+
+                    <div class="mb-3">
+                        <var class="price h4">@string.Format("{0:0,0}", Model.Price)</var>
+                        <small class="text-muted">đ</small>
+                        <span class="text-muted"><del>@string.Format("{0:0,0}", Model.PriceSale)</del><small class="text-muted">đ</small></span>
+                    </div> <!-- price-detail-wrap .// -->
+
+                    <p>@Model.MetaDes</p>
+
+
+                    <dl class="row">
+                        <dt class="col-sm-3">Thương hiệu</dt>
+                        <dd class="col-sm-9">
+                            <a href="#">@Model.SupName</a>
+                        </dd>
+
+                        <dt class="col-sm-3">Số lượng còn lại</dt>
+                        <dd class="col-sm-9">@Model.Number</dd>
+
+                        <dt class="col-sm-3">Bảo hành</dt>
+                        <dd class="col-sm-9">12 tháng</dd>
+
+                    </dl>
+
+                    <div class="form-row  mt-4">
+
+                        <div class="form-group col-md">
+                            <a href="@Url.Action("CartAdd","GioHang", new {productId=Model.id})" class="btn  btn-primary">
+                                <i class="fas fa-shopping-cart"></i> <span class="text">Thêm vào giỏ hàng</span>
+                            </a>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+
+                </article> <!-- product-info-aside .// -->
+            </main> <!-- col.// -->
+        </div> <!-- row.// -->
+        <!-- ================ ITEM DETAIL END .// ================= -->
+
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-12">
+                    <!-- Tabs START -->
+                    <ul class="nav nav-pills nav-pills-bg-soft px-2" id="course-pills-tab" role="tablist">
+                        <!-- Tab item -->
+                        <li class="nav-item me-2 me-sm-4" role="presentation">
+                            <button class="nav-link mb-0 active" id="course-pills-tab-1" data-bs-toggle="pill" data-bs-target="#course-pills-1" type="button" role="tab" aria-controls="course-pills-1" aria-selected="true">Giới thiệu</button>
+                        </li>
+                        <!-- Tab item -->
+                        <li class="nav-item me-2 me-sm-4" role="presentation">
+                            <button class="nav-link mb-0" id="course-pills-tab-2" data-bs-toggle="pill" data-bs-target="#course-pills-2" type="button" role="tab" aria-controls="course-pills-2" aria-selected="false">Đánh giá</button>
+                        </li>
+                    </ul>
+                    <!-- Tabs END -->
+                    <!-- Tab contents START -->
+                    <div class="tab-content pt-4 px-2" id="course-pills-tabContent">
+                        <!-- Content START -->
+                        <div class="tab-pane fade" id="course-pills-2" role="tabpanel" aria-labelledby="course-pills-tab-2">
+                            <!-- Review START -->
+                            <div class="row mb-4">
+                                <h5 class="mb-4">Tất cả đánh giá</h5>
+
+                                <!-- Rating info -->
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <div class="text-center">
+                                        <!-- Info -->
+                                        <h2 class="mb-0">@rateDAO.AvarageRate(Model.id)</h2>
+                                        <!-- Star -->
+                                        <div class="rating-wrap my-3">
+                                            @{ int sosao = (int)Math.Round(rateDAO.AvarageRate(Model.id));
+                                                if (sosao == 0)
+                                                {
+                                                    <p>(Chưa có đánh giá)</p>
+                                                }
+                                                else
+                                                {
+                                                    <ul class="rating-stars">
+                                                        <li style="width:100%" class="stars-active">
+                                                            @for (int i = 1; i <= sosao; i++)
+                                                            {
+                                                                <i class="fa fa-star"></i>
+                                                            }
+                                                        </li>
+                                                        <li>
+                                                            @for (int i = 1; i <= sosao; i++)
+                                                            {
+                                                                <i class="fa fa-star"></i>
+                                                            }
+                                                        </li>
+                                                    </ul>
+
+                                                }}
+                                        </div> <!-- rating-wrap.// -->
+                                    </div>
+                                </div>
+
+                                <!-- Progress-bar and star -->
+                                <div class="col-md-8">
+                                    <div class="row align-items-center text-center">
+                                        <!-- Progress bar and Rating -->
+                                        <div class="col-6 col-sm-8">
+                                            @*Progress item
+                                                <div class="progress progress-sm bg-warning bg-opacity-15">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>*@
+
+                                            <p>(Có @rateDAO.SoNguoiDanhGia(Model.id, 5) người đã đánh giá)</p>
+                                        </div>
+
+                                        <div class="col-6 col-sm-4">
+                                            <!-- Star item -->
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Progress bar and Rating -->
+                                        <div class="col-6 col-sm-8">
+                                            <!-- Progress item -->
+                                            @*<div class="progress progress-sm bg-warning bg-opacity-15">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>*@
+                                            <p>(Có @rateDAO.SoNguoiDanhGia(Model.id, 4) người đã đánh giá)</p>
+
+                                        </div>
+
+                                        <div class="col-6 col-sm-4">
+                                            <!-- Star item -->
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Progress bar and Rating -->
+                                        <div class="col-6 col-sm-8">
+                                            <!-- Progress item -->
+                                            @*<div class="progress progress-sm bg-warning bg-opacity-15">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>*@
+                                            <p>(Có @rateDAO.SoNguoiDanhGia(Model.id, 3) người đã đánh giá)</p>
+
+                                        </div>
+
+                                        <div class="col-6 col-sm-4">
+                                            <!-- Star item -->
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Progress bar and Rating -->
+                                        <div class="col-6 col-sm-8">
+                                            @*Progress item*@
+                                            @*<div class="progress progress-sm bg-warning bg-opacity-15">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                </div>*@
+                                            <p>(Có @rateDAO.SoNguoiDanhGia(Model.id, 2) người đã đánh giá)</p>
+
+                                        </div>
+
+                                        <div class="col-6 col-sm-4">
+                                            <!-- Star item -->
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Progress bar and Rating -->
+                                        <div class="col-6 col-sm-8">
+                                            <!-- Progress item -->
+                                            @*<div class="progress progress-sm bg-warning bg-opacity-15">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                                                                    </div>
+                                                                                                </div>*@
+                                            <p>(Có @rateDAO.SoNguoiDanhGia(Model.id, 1) người đã đánh giá)</p>
+
+                                        </div>
+
+                                        <div class="col-6 col-sm-4">
+                                            <!-- Star item -->
+                                            <ul class="list-inline mb-0">
+                                                <li class="list-inline-item me-0 small"><i class="fas fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                                <li class="list-inline-item me-0 small"><i class="far fa-star text-warning"></i></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Review END -->
+                            <!-- Student review START -->
+                            <div id="div_allcomment">
+                                @foreach (var itemcomment in listCmt)
+                                {
+                                    if (itemcomment.ParentId == 0)
+                                    {
+                                        <div class="row">
+                                            <!-- Review item START -->
+                                            <div class="d-md-flex my-4">
+                                                <!-- Avatar -->
+                                                <div class="avatar avatar-xl me-4 flex-shrink-0">
+
+
+                                                    <img class="avatar-img rounded-circle" src="~/Public/images/user/@itemcomment.Img" alt="avatar" width="40">
+                                                </div>
+                                                <!-- Text -->
+                                                <div class="col-md-12">
+                                                    <div class="d-sm-flex mt-1 mt-md-0 align-items-center">
+                                                        <h5 class="me-3 mb-0">@itemcomment.Name</h5>
+                                                        <!-- Review star -->
+                                                        @*<ul class="list-inline mb-0">
+                                                            @if (itemcomment.Rate >= 1)
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+                                                                                                                            }                                                            @if (itemcomment.Rate >= 2)
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+                                                                                                                            }
+                                                                                                                            @if (itemcomment.Rate >= 3)
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+                                                                                                                            }
+                                                                                                                            @if (itemcomment.Rate >= 4)
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+                                                                                                                            }
+                                                                                                                            @if (itemcomment.Rate >= 5)
+                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="fas fa-star text-warning"></i></li>
+
+                                                                                                                            }
+                                                                                                                            else
+                                                                                                                            {
+                                                                                                                                <li class="list-inline-item me-0"><i class="far fa-star text-warning"></i></li>
+                                                                                                                            }
+
+                                                                                                                        </ul>*@
+                                                    </div>
+                                                    <!-- Info -->
+                                                    <p class="small mb-2">@itemcomment.DateCmt</p>
+                                                    <div class="mt-2">
+                                                        <p class="mb-2">@itemcomment.CommentMSG</p>
+                                                        <div class="bg-white"></div>
+                                                        <div class="d-flex flex-row">
+                                                            <a class="accordion-collapse collapse show" href="#commmentreply-@itemcomment.id" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapse-1">
+                                                                <i class="fas fa-reply me-2"></i>Reply
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div id="commmentreply-@itemcomment.id" class="bg-light p-2 collapse">
+                                                        <div class="d-flex flex-row align-items-start">
+                                                            <textarea class="form-control" id="txtCommentMsg_@itemcomment.id" placeholder="Viết nhận xét tại đây" rows="3"></textarea>
+
+                                                        </div>
+                                                        <div class="mt-2 text-right">
+                                                            <a class="abcdefghkj" data-productid="@itemcomment.ProductID" data-userid="@ViewBag.UserID" data-parentid="@itemcomment.id" data-commentmsg="txtCommentMsg_@itemcomment.id">
+                                                                <input type="submit" class="btn btn-primary mb-0" value="Gửi bình luận" />
+                                                            </a>r
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Reply button -->
+                                                    @{Html.RenderAction("_ChildComment", "Site", new { parentid = itemcomment.id, productid = itemcomment.ProductID });}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                            <!-- Student review END -->
+                            <!-- Leave Review START -->
+                            @if (Session["UserCustomer"] != "")
+                            {
+
+
+                                <div class="mt-2">
+                                    <h5 class="mb-4">Đánh giá sản phẩm tại đây</h5>
+                                    <form class="row g-3">
+
+                                        
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (ViewBag.RateProduct >= i)
+                                            {
+                                                <span style="color: orange">★</span>
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:void(0);" class="star" data-rate="@i">☆</a>
+                                            }
+                                        }
+
+                                        <!-- Message -->
+                                        <div class="col-12">
+                                            <textarea class="form-control" id="txtCommentNew" placeholder="Viết nhận xét tại đây" rows="3"></textarea>
+                                        </div>
+                                        <!-- Button -->
+                                        <div class="col-12">
+                                            <button type="button" id="btnCommentNew" data-productid="@Model.id" data-userid="@ViewBag.UserID" class="btn btn-primary mb-0">Bình luận</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="mt-2">
+                                    <h5 class="mb-4"> <a href="~/dang-nhap">Đăng nhập</a> để bình luận</h5>
+                                </div>
+                            }
+                            <!-- Leave Review END -->
+                        </div>
+                        <!-- Content END -->
+
+
+                        <div class="tab-pane fade show active" id="course-pills-1" role="tabpanel" aria-labelledby="course-pills-tab-1">
+                            <!-- Course detail START -->
+                            <p>@Model.Detail</p>
+                            <table class="table table-bordered">
+                                <tr> <th colspan="2">Chi tiết sản phẩm</th> </tr>
+                                <tr> <td>Thương hiệu</td>    <td>@Model.SupName</td> </tr>
+                                <tr> <td>Phòng</td>    <td>@Model.CatName</td> </tr>
+                                <tr> <td>Xuất sứ</td>   <td>@Model.Origin</td> </tr>
+                                <tr> <td>Vật liệu</td>   <td>@Model.Material</td> </tr>
+                                <tr> <td>Kích thước</td>   <td>@Model.Length X @Model.Width</td> </tr>
+                                <tr> <td>Số lượng</td>   <td>@Model.Number</td> </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <!-- Tab contents END -->
+                </div>
+
+            </div> <!-- col.// -->
+
+            <aside class="col-md-4">
+
+                <div class="box">
+
+                    <h5 class="title-description">Sản phẩm tương tự</h5>
+                    @foreach (var item in ViewBag.Product)
+                    {
+
+                        <article class="media mb-3">
+                            <a href="~/@item.Slug"><img class="img-sm mr-3" src="~/Public/images/products/@item.Img"></a>
+                            <div class="media-body">
+                                <h6 class="mt-0"><a href="~/@item.Slug">@item.Name</a></h6>
+                                <p class="mb-2"> @item.MetaDes </p>
+                            </div>
+                        </article>
+
+                    }
+
+                </div> <!-- box.// -->
+            </aside> <!-- col.// -->
+        </div> <!-- row.// -->
+
+
+
+    </div> <!-- container .//  -->
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+<script>
+    var product = {
+        init: function () {
+            product.registerEvents();
+        },
+        registerEvents: function () {
+            $('#btnCommentNew').off('click').on('click', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var productid = btn.data('productid');
+                var userid = btn.data('userid');
+                var commentmsg = document.getElementById('txtCommentNew');
+                if (commentmsg.value == "") {
+
+                    bootbox.alert("Chưa nhập nội dung bình luận");
+                    return;
+                }
+                $.ajax({
+                    url: "/Site/AddNewComment",
+                    data: {
+                        productid: productid,
+                        userid: userid,
+                        parentid: 0,
+                        commentmsg: commentmsg.value,
+                        rate: 5
+                    },
+                    dataType: "json",
+                    type: "POST",
+                    success: function (response) {
+                        if (response.status == true) {
+                            commentmsg.value = "";
+                            bootbox.alert({
+                                message: "Bạn đã thêm bình luận thành công",
+                                size: 'medium',
+                                closeButton: false
+                            });
+                            $("#div_allcomment").load("/Site/GetComment?productid=" + productid);
+                        }
+                        else {
+                            bootbox.alert("Thêm bình luận lỗi");
+                        }
+                    }
+                });
+            });
+
+            $('.abcdefghkj').off('click').on('click', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var productid = btn.data('productid');
+                var userid = btn.data('userid');
+                var parenid = btn.data('parentid');
+                var commentmsg = btn.data('commentmsg');
+
+                var commentmsgvalue = document.getElementById(commentmsg);
+
+
+                if (commentmsgvalue.value == "") {
+
+                    bootbox.alert("Chưa nhập nội dung bình luận");
+                    return;
+                }
+                $.ajax({
+                    url: "/Site/AddNewComment",
+                    data: {
+                        productid: productid,
+                        userid: userid,
+                        parentid: parenid,
+                        commentmsg: commentmsgvalue.value,
+                        rate: 5
+                    },
+                    dataType: "json",
+                    type: "POST",
+                    success: function (response) {
+                        if (response.status == true) {
+                            commentmsg.value = "";
+                            bootbox.alert({
+                                message: "Bạn đã thêm bình luận thành công",
+                                size: 'medium',
+                                closeButton: false
+                            });
+                            $("#div_allcomment").load("/Site/GetComment?productid=" + productid);
+                        }
+                        else {
+                            bootbox.alert("Thêm bình luận lỗi");
+                        }
+                    }
+                });
+            });
+        }
+    }
+    product.init();
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".star").click(function () {
+            var productid = @Model.id;
+            var rate = $(this).data("rate");
+
+            $.ajax({
+                url: '@Url.Action("AddRate", "Site")',
+                type: 'POST',
+                data: { productid: productid, rate: rate },
+                success: function () {
+                    // Tải lại hoặc cập nhật nội dung theo cần thiết
+                    location.reload(); // hoặc cập nhật chỉ mục sao đó mà không làm tải lại toàn bộ trang
+                }
+            });
+        });
+    });
+</script>

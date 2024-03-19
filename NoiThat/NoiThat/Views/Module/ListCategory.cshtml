@@ -1,0 +1,44 @@
+﻿@model IEnumerable<NoiThat.Models.Category>
+
+@{
+    Layout = null;
+}
+<article class="filter-group">
+    <h6 class="title">
+        <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1">Loại Sản Phẩm</a>
+    </h6>
+    <div class="filter-content collapse show" id="collapse_1" style="">
+        <div class="inner">
+            <ul class="list-menu">
+                @foreach (var cat in Model)
+                {
+                    <li>
+                        <a href="@cat.Slug">@cat.Name</a>
+                    </li>
+                }
+            </ul>
+        </div> <!-- inner.// -->
+    </div>
+</article> <!-- filter-group .// -->
+<style>
+    /* CSS cho danh sách menu */
+    .list-menu {
+        list-style: none;
+        padding: 0;
+    }
+
+        .list-menu li {
+            margin-bottom: 5px;
+        }
+
+            .list-menu li a {
+                text-decoration: none;
+                color: #333; /* Màu chữ của các liên kết */
+                transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu khi di chuột qua */
+            }
+
+                .list-menu li a:hover {
+                    color: #ff6600; /* Màu chữ khi di chuột qua */
+                }
+
+</style>

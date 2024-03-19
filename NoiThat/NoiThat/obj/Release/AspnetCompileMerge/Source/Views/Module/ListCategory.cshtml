@@ -1,0 +1,22 @@
+﻿@model IEnumerable<NoiThat.Models.Category>
+
+@{
+    Layout = null;
+}
+<article class="filter-group">
+    <h6 class="title">
+        <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1"> </a>
+    </h6>
+    <div class="filter-content collapse show" id="collapse_1" style="">
+        <div class="inner">
+            <ul class="list-menu">
+                @foreach(var cat in Model)
+            {
+
+                <li><a href="@cat.Slug">@cat.Name  </a></li>
+            }
+                
+            </ul>
+        </div> <!-- inner.// -->
+    </div>
+</article> <!-- filter-group  .// -->

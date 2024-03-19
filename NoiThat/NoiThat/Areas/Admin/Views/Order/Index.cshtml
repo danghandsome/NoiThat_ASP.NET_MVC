@@ -1,0 +1,117 @@
+﻿@model IEnumerable<NoiThat.Models.Order>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section header{
+    <link href="~/Public/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+@section footer{
+    <script src="~/Public/js/jquery.dataTables.min.js"></script>
+    <script>let table = new DataTable('#myTable');</script>
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content my-2">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong class="text-danger text-uppercase">DANH MỤC đơn hàng</strong>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="card-body">
+                @Html.Partial("Message")
+
+                <table class="table table-bordered table-striped" id="myTable">
+                    <thead>
+                        <tr>
+                            
+                            <th>
+                                Tên 
+                            </th>
+                            <th>
+                                Ngày tạo
+                            </th>
+                            <th>
+                                Tổng tiền
+                            </th>
+                            <th>
+                                Tình trạng
+                            </th>
+
+                            <th class="text-center" style="width:180px">Chức năng</th>
+                            <th class="text-center" style="width:20px">ID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                               
+                                <td>
+                                    @Html.Action("NameCustomer", "User", new {userid=item.UserId})
+                                </td>
+                                <td>
+                                    @item.CreatedAt
+                                </td>
+                                <td>
+                                    @item.Amount
+                                </td>
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case 0:
+                                            <label class="text-danger"> Đã hủy</label>
+                                            break;
+                                        case 1:
+                                            <label class="text-info"> Đang chờ</label>
+                                            break;
+                                        case 2:
+                                            <label class="text-info"> Đã xác nhận</label>
+                                            break;
+                                        case 3:
+                                            <label class="text-info"> Đang vận chuyển</label>
+                                            break;
+                                        case 4:
+                                            <label class="text-success"> Thành công</label>
+                                            break;
+
+                                        case 11:
+                                            <label class="text-info"> Đang chờ</label> <label class="text-success"> (Đã thanh toán bằng VNPay)</label>
+
+                                            break;
+                                        case 12:
+                                            <label class="text-info"> Đã xác nhận</label> <label class="text-success"> (Đã thanh toán bằng VNPay)</label>
+                                            break;
+                                        case 13:
+                                            <label class="text-info"> Đang vận chuyển</label> <label class="text-success"> (Đã thanh toán bằng VNPay)</label>
+                                            break;
+                                    }
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="@Url.Action("Details","Order", new { id = item.id })" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
+                                </td>
+                                <td>@item.id</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
